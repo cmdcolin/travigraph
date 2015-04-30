@@ -46,11 +46,12 @@ fi
 
 for i in `seq $sbuild 25 $ebuild`; do
     echo Processing build $i $1;
-    if [[ ! -f $i.parsed.json || $cached -eq "true" ]]; then
+    if [[ ! -f $i.parsed.json || $cached -ne "true" ]]; then
         travis raw --json /repos/$repo/builds?after_number=$i | \
             Rscript regularize_json.R > $i.parsed.json;
     fi
 done;
 
 Rscript merge_json.R *parsed.json > out.json;
-cat out.json | Rscript process.R $outfile
+Rscript process.R out.json output.csv
+Rscript plot.R output.csv $outfile
