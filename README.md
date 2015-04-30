@@ -17,11 +17,14 @@ Pre-requisites
 =============
 
 - travis command line tool (`gem install travis`)
-- R packages e.g. install.packages(c=('ggplot2', 'chron', 'stringr', 'jsonlite'))`
+- R packages e.g. `install.packages(c=('ggplot2', 'chron', 'stringr', 'jsonlite'))`
 
 Note: the travis command line tool should be authenticated to your account first too
 
+Example
+======
 
+![](output.png)
 
 Usage
 ====
