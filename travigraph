@@ -37,11 +37,7 @@ while getopts ":c:r:s:e:o:v:" opt; do
       ;;
   esac
 done
-echo ${sbuild}
-echo ${ebuild}
-echo ${outfile}
-echo ${cached}
-echo ${repo}
+
 if [ -z "${sbuild}" ] || [ -z "${ebuild}" ] || [ -z "${outfile}" ]  || [ -z "${repo}" ]; then
     usage
     exit 1
