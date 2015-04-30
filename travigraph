@@ -1,12 +1,12 @@
 #!/bin/bash
 
 usage() {
-    echo "<program> -r username/repo -s <start_build> -e <end_build> -o <output_file.png> [-t <tmpdir>] [-cached] [-version]"
+    echo "<program> -r username/repo -s <start_build> -e <end_build> -o <output_file.png> [-t <tmpdir>] [-w 600 -h 600] [-cached] [-version]"
     exit 1;
 }
 version="1.0";
 
-while getopts ":c:r:s:e:o:v:t:" opt; do
+while getopts ":c:r:s:e:o:v:t:w:h:" opt; do
   case ${opt} in
     c)
       cached="true"
@@ -25,6 +25,12 @@ while getopts ":c:r:s:e:o:v:t:" opt; do
       ;;
     t)
       tmpdir=${OPTARG}/
+      ;;
+    w)
+      width=${OPTARG}
+      ;;
+    h)
+      height=${OPTARG}
       ;;
     v)
       echo Version $version
@@ -56,5 +62,5 @@ done;
 
 Rscript merge_json.R ${tmpdir}*parsed.json > ${tmpdir}out.json;
 Rscript process.R ${tmpdir}out.json ${tmpdir}output.csv
-Rscript plot.R ${tmpdir}output.csv $outfile
+Rscript plot.R ${tmpdir}output.csv $outfile ${width} ${height} 
 echo "Done"

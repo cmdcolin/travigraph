@@ -14,33 +14,39 @@ The code is made of several modules
 
 
 Pre-requisites
-=============
+---------------
 
-- travis command line tool (`gem install travis`)
-- R packages e.g. `install.packages(c=('ggplot2', 'chron', 'stringr', 'jsonlite'))`
+- travis command line tool e.g. `gem install travis`
+- R packages e.g. `install.packages(c-('ggplot2', 'chron', 'stringr', 'jsonlite'))`
 
-Note: the travis command line tool should also be authenticated to your account before using (typically requires a github authentication token).
+Note: the travis command line tool should also be authenticated to your account before using this tool
 
 Example
-======
+-------
 
 ![](output.png)
 
 Usage
-====
+----
 
     travigraph -r username/repo -b 50 -e 1000 -o output.png -cached
 
 Options
-======
+-------
 
-    -r Repo as username/reponame or organization/reponame
-    -s Starting build number of travis CI.  (required)
-    -e Ending build number (required)
-    -t Temp directory to store intermediate files (not required)
+    -r Repo as username/reponame or organization/reponame, doesn't have to be your own! (required)
+    -s Starting build number to process (required)
+    -e Ending build number to process (required)
     -o Output image file (required)
-    -cached Use already downloaded results for plotting
-    -version Print version
+    -t Temp directory to store intermediate files (optional)
+    -w Width of image (optional)
+    -h Height of image (optional)
+    -cached Use already downloaded results for plotting (optional)
+    -version Print version (optional)
 
- Note: the starting build returns abnormal results at low values, start at 50+
+Notes: Builds are normally "paged" 25 at a time via the API.
 
+Known issues
+-----------
+
+For unknown reasons the -b option doesn't work at low values, try starting it at 50 or more
