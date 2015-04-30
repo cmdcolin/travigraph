@@ -14,23 +14,21 @@ if(length(args)<1) {
 f <- file("stdin")
 open(f)
 
-x=readLines(f)
-j=fromJSON(x)
-#avoid rows with no starting time
-j=j[!is.na(j$started_at),]
-# scale duration
-j$duration=j$duration/60
-# process date/time strings with chron
-ret=str_split(j$started_at,"T")
+text=readLines(f)
+results=fromJSON(text)
+results=results[!is.na(results$started_at),]
+times=str_split(results$started_at,"T")
 
-
-j$started_at=sapply(ret,function(ret) {
-    chron(dates=ret[[1]],times=substr(ret[[2]],1,str_length(ret[[2]])-1),
+process_data<-function(time) {
+    chron(dates=time[[1]],times=str_sub(time[[2]],end=-1),
         format = c(dates = "y-m-d", times = "h:m:s"))
-})
+}
+results$duration=results$duration/60
+results$started_at=sapply(times,process_date)
 
 # setup ggplot to read directly from the data frame
-myplot<-ggplot(j,aes(started_at,duration,data), colour=state) +
+# note: change format to reduce ggranularity in time
+myplot<-ggplot(results,aes(started_at,duration,data), colour=state) +
     geom_point(aes(colour=state))+
     ggtitle("Travis-CI Builds") +
     xlab("Date") +
@@ -38,7 +36,6 @@ myplot<-ggplot(j,aes(started_at,duration,data), colour=state) +
     scale_x_chron(format="%D %H:%M") +
     expand_limits(y=0) +
     theme(axis.text.x = element_text(angle = 30, hjust = 1))
-#scale_colour_manual(values=c("canceled"="gold","errored"="grey50","failed"="red3","passed"="green3"))
 
 png(args[1],width=1000,height=600)
 myplot

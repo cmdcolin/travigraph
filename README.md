@@ -25,4 +25,7 @@ Note: the travis command line tool should be authenticated to your account first
 Usage
 ====
 
-    travigraph -r username/repo -b 0 -e 1000 -o output.png -cached
+    travigraph -r username/repo -b 50 -e 1000 -o output.png -cached
+
+Note: the starting build -b seems to not return enough results at low values, so it is best to use a larger value such
+as -b 50 to begin paginating.
