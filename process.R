@@ -37,8 +37,8 @@ myplot<-ggplot(j,aes(started_at,duration,data), colour=state) +
     ylab("Travis-CI build time (minutes)") +
     scale_x_chron(format="%D %H:%M") +
     expand_limits(y=0) +
-    theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
-    scale_colour_manual(values=c("yellow","grey","red","green"))
+    theme(axis.text.x = element_text(angle = 30, hjust = 1))
+#scale_colour_manual(values=c("canceled"="gold","errored"="grey50","failed"="red3","passed"="green3"))
 
 png(args[1],width=1000,height=600)
 myplot
