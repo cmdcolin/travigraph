@@ -30,15 +30,17 @@ j$started_at=sapply(ret,function(ret) {
 })
 
 # setup ggplot to read directly from the data frame
-q<-qplot(started_at,duration,data=j,color=factor(state))
-q<-q+ggtitle("Travis-CI Builds")
-q<-q+xlab("Date")
-q<-q+ylab("Travis-CI time (minutes)")
-q<-q+scale_x_chron(format="%D %H:%M")
-q<-q+expand_limits(y=0)
-q<-q+theme(axis.text.x = element_text(angle = 30, hjust = 1))
+myplot<-ggplot(j,aes(started_at,duration,data), colour=state) +
+    geom_point(aes(colour=state))+
+    ggtitle("Travis-CI Builds") +
+    xlab("Date") +
+    ylab("Travis-CI build time (minutes)") +
+    scale_x_chron(format="%D %H:%M") +
+    expand_limits(y=0) +
+    theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
+    scale_colour_manual(values=c("yellow","grey","red","green"))
 
-png(args[1])
-q
+png(args[1],width=1000,height=600)
+myplot
 dev.off()
 
