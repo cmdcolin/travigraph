@@ -1,11 +1,8 @@
-Travis-CI grapher
+Travigraph
 ==========
 
-This program uses the command line tool for Travis-CI to download the build durations on a given project
-and then graphs the results using R.
-
-There are probably additional things that could be added as parameters but you may find the code simple enough to modify
-yourself.
+This program uses the command line tools for Travis-CI to download the build statistics on a given project
+and then it graphs the results using R and ggplot2.
 
 The code is made of several modules
 1) A command line runner that downloads "pages" of builds in JSON format (25 at a time)
@@ -17,5 +14,16 @@ The code is made of several modules
 Pre-requisites
 =============
 
-The travis command line tool (`gem install travis`). You need to authenticate it first, usually with a github token.
+The travis command line tool (`gem install travis`)
 Several R packages (ggplot2, chron, stringr, jsonlite)
+
+Note: the travis command line tool should be authenticated to your account first too
+
+
+
+Usage
+====
+
+Takes a username/repo (no .git extension) for a range of build numbers:
+
+travigraph -r username/repo -b 0 -e 1000 -o output.png -cached
