@@ -5,7 +5,7 @@ library(chron)
 library(stringr)
 
 
-# process stdin
+# process input json dates and duration to minutes
 args <- commandArgs(trailingOnly = TRUE)
 if(length(args)<2) {
     stop("Usage: <program> <input.json> <output.csv>")
@@ -23,6 +23,6 @@ process_date<-function(time) {
 results$duration=results$duration/60
 results$started_at=sapply(times,process_date)
 
-#write to stdout
+#write to output csv
 write.csv(results,file=args[2],row.names=F,quote=F)
 
