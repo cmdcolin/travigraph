@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-if(!require(jsonlite,quietly=TRUE,warn.conflicts=FALSE)) print("Install jsonlite")
+library(jsonlite)
 
 # only stdin
 f <- file("stdin")

@@ -55,3 +55,4 @@ done;
 Rscript merge_json.R *parsed.json > out.json;
 Rscript process.R out.json output.csv
 Rscript plot.R output.csv $outfile
+echo "Done"

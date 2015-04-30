@@ -1,10 +1,7 @@
 #!/usr/bin/env Rscript
 
-if(!require(jsonlite,quietly=TRUE,warn.conflicts=FALSE)) print("Install jsonlite")
-if(!require(ggplot2,quietly=TRUE)) print("Install ggplot2")
-if(!require(chron,quietly=TRUE)) print("Install chron")
-if(!require(stringr,quietly=TRUE)) print("Install stringr")
-
+library(ggplot2)
+library(chron)
 
 # get imagename for output
 args <- commandArgs(trailingOnly = TRUE)

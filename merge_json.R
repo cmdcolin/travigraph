@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 
-if(!require(jsonlite,quietly=TRUE,warn.conflicts=FALSE)) print("Install jsonlite")
-
+library(jsonlite)
 
 # get imagename for output
 args <- commandArgs(trailingOnly = TRUE)
