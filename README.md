@@ -17,7 +17,7 @@ Pre-requisites
 ---------------
 
 - travis command line tool e.g. `gem install travis`
-- R packages e.g. `install.packages(c-('ggplot2', 'chron', 'stringr', 'jsonlite'))`
+- R packages e.g. 'ggplot2', 'chron', 'stringr', 'jsonlite'
 
 Note: the travis command line tool should also be authenticated to your account before using this tool
 
@@ -34,7 +34,7 @@ Usage
 Options
 -------
 
-    -r Repo as username/reponame or organization/reponame, doesn't have to be your own! (required)
+    -r Repo as username/reponame, doesn't have to be your own! (required)
     -s Starting build number to process (required)
     -e Ending build number to process (required)
     -o Output image file (required)
