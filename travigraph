@@ -4,7 +4,7 @@ usage() {
     echo "<program> -r username/repo -s <start_build> -e <end_build> -o <output_file.png> [-t <tmpdir>] [-w 600 -h 600] [-cached] [-version]"
     exit 1;
 }
-version="1.0";
+version="1.0.1";
 
 while getopts ":c:r:s:e:o:v:t:w:h:" opt; do
   case ${opt} in
@@ -33,8 +33,8 @@ while getopts ":c:r:s:e:o:v:t:w:h:" opt; do
       height=${OPTARG}
       ;;
     v)
-      echo Version $version
-      exit 1
+      echo $version
+      exit 0
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
