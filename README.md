@@ -29,7 +29,7 @@ Example
 Usage
 ----
 
-    travigraph -r username/repo -b 50 -e 1000 -o output.png -cached
+    travigraph -r username/repo -s 50 -e 1000 -o output.png -cached
 
 Options
 -------
@@ -49,4 +49,4 @@ Notes: Builds are normally "paged" 25 at a time via the API.
 Known issues
 -----------
 
-For unknown reasons the -b option doesn't work at low values, try starting it at 50 or more
+For unknown reasons the -s option doesn't work at low values, try starting it at 50 or more

@@ -56,11 +56,11 @@ mkdir -p ${tmpdir}
 for i in `seq $sbuild 25 $ebuild`; do
     echo Processing build $i;
     if [[ ! -f ${tmpdir}$i.parsed.json || $cached -ne "true" ]]; then
-        travis raw --json /repos/${repo}/builds?after_number=$i | Rscript regularize_json.R > ${tmpdir}$i.parsed.json;
+        travis raw --json /repos/${repo}/builds?after_number=$i | Rscript --slave --vanilla regularize_json.R > ${tmpdir}$i.parsed.json;
     fi
 done;
 
-Rscript merge_json.R ${tmpdir}*parsed.json > ${tmpdir}out.json;
-Rscript process.R ${tmpdir}out.json ${tmpdir}output.csv
-Rscript plot.R ${tmpdir}output.csv $outfile ${width} ${height} 
+Rscript --slave --vanilla merge_json.R ${tmpdir}*parsed.json > ${tmpdir}out.json;
+Rscript --slave --vanilla process.R ${tmpdir}out.json ${tmpdir}output.csv
+Rscript --slave --vanilla plot.R ${tmpdir}output.csv $outfile ${width} ${height}
 echo "Done"
