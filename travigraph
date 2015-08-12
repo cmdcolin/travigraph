@@ -1,9 +1,25 @@
 #!/bin/bash
+set -e
+set -u
+set -o pipefail
 
 usage() {
-    echo "<program> -r username/repo -s <start_build> -e <end_build> -o <output_file.png> [-t <tmpdir>] [-w 600 -h 600] [-cached] [-version]"
+    echo "travigraph -r username/repo -s <start_build> -e <end_build> -o <output_file.png> [-t <tmpdir>] [-w 600 -h 600] [-cached]"
+    echo "travigraph -version"
     exit 1;
 }
+
+
+
+cached="false"
+repo=travis-ci/travis-ci
+sbuild=50
+ebuild=100
+tmpdir=tmpdir/
+builddir=builds/
+finaldir=final/
+width=1000
+height=600
 
 while getopts ":c:r:s:e:o:v:t:w:h:" opt; do
   case ${opt} in
@@ -52,14 +68,26 @@ if [ -z "${sbuild}" ] || [ -z "${ebuild}" ] || [ -z "${outfile}" ]  || [ -z "${r
 fi
 
 mkdir -p ${tmpdir}
+mkdir -p ${builddir}
+mkdir -p ${finaldir}
+
 for i in `seq $sbuild 25 $ebuild`; do
     echo Processing build $i;
-    if [[ ! -f ${tmpdir}$i.parsed.json || $cached -ne "true" ]]; then
+    if [[ ! -f ${tmpdir}$i.parsed.json ]]; then
         travis raw --json /repos/${repo}/builds?after_number=$i | Rscript --slave --vanilla regularize_json.R > ${tmpdir}$i.parsed.json;
     fi
 done;
 
-Rscript --slave --vanilla merge_json.R ${tmpdir}*parsed.json > ${tmpdir}out.json;
-Rscript --slave --vanilla process.R ${tmpdir}out.json ${tmpdir}output.csv
-Rscript --slave --vanilla plot.R ${tmpdir}output.csv $outfile ${width} ${height}
-echo "Done"
+for i in ${tmpdir}*.json; do cat $i | jq "[.builds]" > ${builddir}`basename $i .parsed.json`.builds.json; done;
+for i in ${builddir}*.builds.json; do cat $i |jq '.[]' > ${finaldir}`basename $i .builds.json`.final.json; done;
+cat ${finaldir}*.json | jq '[.[]]' > output.json
+cat output.json | jq '.[] | (.state)' > x1.txt
+cat output.json | jq '.[] | (.started_at)' > x2.txt
+cat output.json | jq '.[] | (.finished_at)' > x3.txt
+paste x1.txt x2.txt x3.txt > table.csv
+rm x1.txt x2.txt x3.txt output.json
+#echo process
+#Rscript --slave --vanilla process.R ${tmpdir}out.json ${tmpdir}output.csv
+#echo plot
+#Rscript --slave --vanilla plot.R ${tmpdir}output.csv $outfile ${width} ${height}
+#echo "Done"

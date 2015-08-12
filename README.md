@@ -24,7 +24,7 @@ Note: the travis command line tool should also be authenticated to your account 
 Example
 -------
 
-![](output.png)
+![Image](img/output.png)
 
 Usage
 ----
