@@ -74,7 +74,7 @@ mkdir -p ${finaldir}
 
 for i in `seq $sbuild 25 $ebuild`; do
     echo Processing build $i;
-    [[ ! -f ${tmpdir}$i.parsed.json ]] || travis raw --json /repos/${repo}/builds?after_number=$i > ${tmpdir}$i.parsed.json;
+    [[ -f ${tmpdir}$i.parsed.json ]] || travis raw --json /repos/${repo}/builds?after_number=$i > ${tmpdir}$i.parsed.json;
 done;
 
 for i in ${tmpdir}*.json; do cat $i | jq "[.builds]" > ${builddir}`basename $i .parsed.json`.builds.json; done;
