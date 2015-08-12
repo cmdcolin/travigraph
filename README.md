@@ -1,4 +1,4 @@
-Travigraph
+Travigraph v1.0.1
 ==========
 
 This program uses the command line tools for Travis-CI to download the build statistics on a given project
@@ -6,21 +6,18 @@ and then it graphs the results using R and ggplot2.
 
 The code is made of several modules
 
-1. travigraph - A command line runner that downloads "pages" of builds in JSON format
-2. regularize\_json - An R script for regularizing some data from the returned JSON
-3. merge\_json - A custom R script to merge dataframes
-4. process - An R script convert the build statistics in JSON format to a CSV file
-4. plot - Rendering CSV results with ggplot2
+1. travigraph - A command line runner that downloads "pages" of builds in JSON format and runs `jq` to format the output
+4. plot.R - Rendering CSV results with ggplot2
 
 
 Pre-requisites
 ---------------
 
 - travis command line tool e.g. `gem install travis`
-- R packages e.g. 'ggplot2', 'chron', 'stringr', 'jsonlite'
+- jq, a javascript JSON parser
+- R packages e.g. 'ggplot2', 'lubridate', 'scales'
 
-Note: the travis command line tool should also be authenticated to your account before using this tool
-
+Note: the travis command line tool should also be authenticated to your account. See http://www.rubydoc.info/gems/travis/1.8.0 for more info.
 Example
 -------
 
@@ -29,7 +26,7 @@ Example
 Usage
 ----
 
-    travigraph -r username/repo -s 50 -e 1000 -o output.png -cached
+    travigraph -r username/repo -s 50 -e 1000
 
 Options
 -------
@@ -45,8 +42,3 @@ Options
     -version Print version (optional)
 
 Notes: Builds are normally "paged" 25 at a time via the API.
-
-Known issues
------------
-
-For unknown reasons the -s option doesn't work at low values, try starting it at 50 or more
