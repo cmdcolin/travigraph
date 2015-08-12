@@ -17,6 +17,8 @@ height=as.numeric(args[4])
 if(is.na(width))width=1000
 if(is.na(height))height=600
 
+names(results)<-c('state','started_at','finished_at')
+
 
 # setup ggplot to read directly from the data frame
 # note: change format to reduce ggranularity in time
