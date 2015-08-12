@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
-library(jsonlite)
-library(chron)
-library(stringr)
+suppressMessages(suppressWarnings(require(jsonlite)))
+suppressMessages(suppressWarnings(require(chron)))
+suppressMessages(suppressWarnings(require(stringr)))
 
 
 # process input json dates and duration to minutes

@@ -1,12 +1,12 @@
 #!/usr/bin/env Rscript
 
-library(ggplot2)
-library(chron)
+suppressMessages(suppressWarnings(require(ggplot2)))
+suppressMessages(suppressWarnings(require(chron)))
 
 # get imagename for output
 args <- commandArgs(trailingOnly = TRUE)
 if(length(args)<2) {
-    stop("Usage: <program> <input.csv> <output.png> [<width> <height>]")
+    stop("Usage: Rscript plot.R <input.csv> <output.png> [<width> <height>]")
 }
 
 results=read.csv(args[1])

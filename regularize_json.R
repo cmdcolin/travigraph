@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-library(jsonlite)
+suppressMessages(suppressWarnings(require(jsonlite)))
 
 # only stdin
 f <- file("stdin")

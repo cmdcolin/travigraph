@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-library(jsonlite)
+suppressMessages(suppressWarnings(require(jsonlite)))
 
 # get imagename for output
 args <- commandArgs(trailingOnly = TRUE)
