@@ -77,7 +77,7 @@ for i in `seq $sbuild 25 $ebuild`; do
     [[ -f ${tmpdir}$i.parsed.json ]] || travis raw --json /repos/${repo}/builds?after_number=$i > ${tmpdir}$i.parsed.json;
 done;
 
-for i in ${tmpdir}*.json; do cat $i | jq "[.builds]" > ${builddir}`basename $i .parsed.json`.builds.json; done;
+for i in `seq $sbuild 25 $ebuild`; do cat ${tmpdir}$i.parsed.json | jq "[.builds]" > ${builddir}`basename $i .parsed.json`.builds.json; done;
 for i in ${builddir}*.builds.json; do cat $i |jq '.[]' > ${finaldir}`basename $i .builds.json`.final.json; done;
 cat ${finaldir}*.json | jq '[.[]]' > output.json
 cat output.json | jq '.[] | (.state)' > x1.txt
@@ -85,8 +85,8 @@ cat output.json | jq '.[] | (.started_at)' > x2.txt
 cat output.json | jq '.[] | (.finished_at)' > x3.txt
 paste x1.txt x2.txt x3.txt > table.csv
 rm x1.txt x2.txt x3.txt output.json
-rm -r ${builddir}
-rm -r ${finaldir}
+rm -rf ${builddir}
+rm -rf ${finaldir}
 echo Plotting graph
 Rscript --slave --vanilla plot.R table.csv ${outfile} ${width} ${height}
 echo "Done"
