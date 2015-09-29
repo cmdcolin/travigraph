@@ -81,3 +81,5 @@ done;
 echo Plotting graph
 Rscript --slave --vanilla plot.R table.csv ${outfile} ${width} ${height}
 echo "Done"
+
+rm table.csv
