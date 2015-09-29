@@ -1,4 +1,6 @@
 #!/usr/bin/env Rscript
+
+
 require(RColorBrewer)
 require(ggplot2)
 require(lubridate)
@@ -11,7 +13,7 @@ if(length(args)<2) {
     stop("Usage: Rscript plot.R <input.csv> <output.png> [<width> <height>]")
 }
 
-results=read.table(args[1])
+results=read.csv(args[1])
 results=results[complete.cases(results),]
 outfile=args[2]
 width=as.numeric(args[3])
@@ -23,7 +25,7 @@ if(is.na(height))height=600
 # lubridate and calcualte duration from started_at-finished_at
 results[,2]=ymd_hms(results[,2])
 results[,3]=ymd_hms(results[,3])
-duration=as.numeric(seconds(results[,3]-results[,2]))/60
+duration=as.numeric(seconds(results[,3]-results[,2]))
 results=cbind(results,duration)
 colnames(results)<-c('state','started_at','finished_at','duration')
 

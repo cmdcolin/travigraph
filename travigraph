@@ -74,7 +74,7 @@ for i in `seq $sbuild 25 $ebuild`; do
 done;
 
 for i in `seq $sbuild 25 $ebuild`; do
-    <${tmpdir}$i.parsed.json jq -r '.builds[]| [.state,.started_at,.finished_at]|@tsv' >> table.csv
+    <${tmpdir}$i.parsed.json jq -r '.builds[]| [.state,.started_at,.finished_at]|@csv' >> table.csv
 done;
 
 
