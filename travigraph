@@ -4,23 +4,21 @@ set -u
 set -o pipefail
 
 usage() {
-    echo "travigraph -r username/repo -s <start_build> -e <end_build> -o <output_file.png> [-t <tmpdir>] [-w 600 -h 600] [-cached]"
-    echo "travigraph -version"
+    echo "travigraph -r username/repo -s <start_build> -e <end_build> -o <output_file.png> [-t <tmpdir>] [-w 600 -h 600] [-cached] [-version]"
     exit 1;
 }
 
 
 
 cached="false"
-repo=travis-ci/travis-ci
-sbuild=50
-ebuild=100
 tmpdir=tmpdir/
-builddir=builds/
-finaldir=final/
 width=1000
 height=600
 outfile=output.png
+sbuild=
+ebuild=
+repo=
+
 
 while getopts ":c:r:s:e:o:v:t:w:h:" opt; do
   case ${opt} in
@@ -63,30 +61,23 @@ while getopts ":c:r:s:e:o:v:t:w:h:" opt; do
   esac
 done
 
-if [ -z "${sbuild}" ] || [ -z "${ebuild}" ] || [ -z "${outfile}" ]  || [ -z "${repo}" ]; then
+if [ -z "${sbuild}" ] || [ -z "${ebuild}" ] || [ -z "${repo}" ]; then
     usage
     exit 1
 fi
 
 mkdir -p ${tmpdir}
-mkdir -p ${builddir}
-mkdir -p ${finaldir}
 
 for i in `seq $sbuild 25 $ebuild`; do
     echo Processing build $i;
     [[ -f ${tmpdir}$i.parsed.json ]] || travis raw --json /repos/${repo}/builds?after_number=$i > ${tmpdir}$i.parsed.json;
 done;
 
-for i in `seq $sbuild 25 $ebuild`; do cat ${tmpdir}$i.parsed.json | jq "[.builds]" > ${builddir}`basename $i .parsed.json`.builds.json; done;
-for i in ${builddir}*.builds.json; do cat $i |jq '.[]' > ${finaldir}`basename $i .builds.json`.final.json; done;
-cat ${finaldir}*.json | jq '[.[]]' > output.json
-cat output.json | jq '.[] | (.state)' > x1.txt
-cat output.json | jq '.[] | (.started_at)' > x2.txt
-cat output.json | jq '.[] | (.finished_at)' > x3.txt
-paste x1.txt x2.txt x3.txt > table.csv
-rm x1.txt x2.txt x3.txt output.json
-rm -rf ${builddir}
-rm -rf ${finaldir}
+for i in `seq $sbuild 25 $ebuild`; do
+    <${tmpdir}$i.parsed.json jq -r '.builds[]| [.state,.started_at,.finished_at]|@tsv' >> table.csv
+done;
+
+
 echo Plotting graph
 Rscript --slave --vanilla plot.R table.csv ${outfile} ${width} ${height}
 echo "Done"
