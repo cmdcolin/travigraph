@@ -1,0 +1,8 @@
+#!/usr/bin/env perl
+use DateTime;
+use 5.10.0;
+$datestring = DateTime->from_epoch(
+        epoch => time(),
+        time_zone => DateTime::TimeZone->new(name => "local")
+)->format_cldr(q|yyyy-MM-dd HH:mm:ss VVVV|);
+say $datestring;
