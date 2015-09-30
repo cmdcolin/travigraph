@@ -8,7 +8,7 @@ usage() {
     exit 1;
 }
 
-
+rm -f table.csv
 
 cached=false
 tmpdir=tmpdir/
@@ -79,7 +79,6 @@ done;
 
 
 echo Plotting graph
-Rscript --slave --vanilla plot.R table.csv ${outfile} ${width} ${height}
+Rscript --slave --vanilla plot.R table.csv ${outfile} ${width} ${height} ${repo}
 echo "Done"
 
-rm table.csv
