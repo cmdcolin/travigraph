@@ -10,7 +10,7 @@ usage() {
 
 
 
-cached="false"
+cached=false
 tmpdir=tmpdir/
 width=1000
 height=600
@@ -23,7 +23,7 @@ repo=
 while getopts ":c:r:s:e:o:v:t:w:h:" opt; do
   case ${opt} in
     c)
-      cached="true"
+      cached=true
       ;;
     r)
       repo=${OPTARG}
@@ -70,7 +70,7 @@ mkdir -p ${tmpdir}
 
 for i in `seq $sbuild 25 $ebuild`; do
     echo Processing build $i;
-    [[ -f ${tmpdir}$i.parsed.json ]] || travis raw --json /repos/${repo}/builds?after_number=$i > ${tmpdir}$i.parsed.json;
+    [[ -f ${tmpdir}$i.parsed.json && $cached == true ]] || travis raw --json /repos/${repo}/builds?after_number=$i > ${tmpdir}$i.parsed.json;
 done;
 
 for i in `seq $sbuild 25 $ebuild`; do
