@@ -38,6 +38,7 @@ Note: the travis command line tool should also be authenticated to your account.
     -t Temp directory to store intermediate files. Default: ./tmpdir
     -w Width of image. Default: 1000
     -h Height of image. Default: 600
+    -cached Use pre-existing data that has been downloaded into the tmpdir (and download things that don't yet exist too)
     -version Print program version
 
 ## Notes
