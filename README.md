@@ -44,3 +44,5 @@ Note: the travis command line tool should also be authenticated to your account.
 ## Notes
     
 Builds are normally "paged" 25 at a time via the API.
+
+The travis API is case sensitive so the username/reponame should match exactly what is on github
